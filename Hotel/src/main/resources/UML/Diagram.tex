@@ -1,0 +1,111 @@
+\documentclass[titlepage,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}     %margins 
+\usepackage[utf8x]{inputenc}
+\usepackage{tikz-uml}
+
+\begin{document}
+\section{Instructions}
+\subsection{What to do}
+\begin{itemize}
+    \item Ensure Gradle is installed on your system
+	\item Import code into your favorite IDE
+	\item Implement all classes and functions. You can check todo sections for hints.
+        \begin{itemize}
+            \item A default constructors should exist for all your domain classes
+            \item \textbf{\emph{READ CAREFULLY}} the java doc before implementing any code
+            \item For list in the many side of associations  always append "s" in your variable name e.g. List<Apple> apples;
+        \end{itemize}
+	\item Run the test cases and make sure they pass.
+	\item A failing test case implies you've a problem either at your logic or class definitions.
+	      Please review your code again and fix it till you pass all the cases.
+	\item To achieve full mark: all your test cases should pass.
+\end{itemize}
+
+\subsection{Sumbission}
+\begin{itemize}
+	\item Upload \textbf{ALL} the java source files inside (/src/main/java) to sakai.
+	\item \textbf{DO NOT ZIP} any file
+\end{itemize}
+
+\subsection{Warning}
+\begin{itemize}
+	\item Upon submission \textbf{\emph{your code must be free of compilation errors}}.
+	\item Otherwise, no credit will be received as the automated build will fail to run the test cases on your submission.
+\end{itemize}
+At the very least, leave your partial solution commented so that the rest of your code can still compile.
+
+\subsection{Notes on grading}
+\begin{itemize}
+	\item  A different set of test cases will be used during grading (they're not provided to you).
+	\item  With correct implementation, those extra cases are guaranteed to pass as well. They exist to prevent someone from hard-coding values just to pass test cases!
+\end{itemize}
+
+
+
+
+\subsection{Pro tip \emph{(Optional)}}
+\begin{itemize}
+	\item If you've docker installed, you can just run the command in the Makefile.
+	      This will build/test your code without even a need for IDE or java installed.
+	\item If you're on Unix-like OS , just run `make run` from the project root dir.
+\end{itemize}
+
+\subsection{You're the Instructor?} Please check InstructorOnly section.
+
+\pagebreak
+
+\section{UML Class diagram \emph{[20pts]}}%
+
+
+Implement the following  in \emph{Java}. \\
+
+\begin{figure}[htpb]
+	\centering
+	\begin{tikzpicture}
+        \umlclass[x=10,y=0,name=Employee]{Employee}{
+            - position:String
+        }{}
+
+		\umlclass[x=0,y=0,name=Role,type=Abstract]{Role}{
+		}{}
+		\umlclass[x=0,y=5,name=Passenger]{Passenger}{
+		}{}
+
+		\umlclass[x=-5,y=0,name=Person]{Person}{
+			- firstName:String\\
+			- lastName:String
+		}{}
+		\umlclass[x=10,y=5,name=Hotel]{Hotel}{
+			- name:String
+		}{}
+		\umluniaggreg[arg2=*]{Hotel}{Employee}
+		\umlinherit[geometry=--]{Employee}{Role}
+		\umlinherit[geometry=--]{Passenger}{Role}
+		\umlassoc[name=passenger-hotel,arg1=*,arg2=*]{Passenger}{Hotel}
+		\umlassoc[name=person-role,arg1=1,arg2=*]{Person}{Role}	
+		\umlassocclass[x=5,y=2]{Reservation}{passenger-hotel-1}
+		{  
+            - checkIn:Date\\
+			- checkOut:Date\\
+            - suite:boolean
+		}{}
+	\end{tikzpicture}
+	\caption{Hotel reservation system}%
+	\label{fig:uml}
+\end{figure}
+
+\section{Functional Programming}
+\textbf{Check JavaDoc/todo at FunctionUtil.java} for detailed description
+
+\subsection{Finding people with prefix \emph{[10pts]}}
+
+$$peopleWithFirstNameWhoReservedAtHotel(persons, prefix, hotelName, year)\rightarrow {list[String]}$$
+
+Returns the capitalized last names of persons whose first name begins with prefix
+and have stayed at hotelName during a certain year.
+
+\subsection{Find VIPs \emph{[70pts]}}
+$$vipPersonsWhoStayedAtLeastKNights(persons, hotelName, year, k) \rightarrow List[String]$$
+Returns the names of persons who stayed at a hotelName at least K nights(as VIP) during a certain year.
+\end{document}
